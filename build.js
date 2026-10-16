@@ -65,7 +65,7 @@ function page({ key, lang, title, description, body }) {
 <link rel="alternate" hreflang="de" href="https://reelsbox.de${PATHS[key].de}">
 <link rel="alternate" hreflang="en" href="https://reelsbox.de${PATHS[key].en}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/style.css?v=${Date.now()}">
 </head>
 <body>
 <header class="top"><a class="brand" href="${PATHS.home[lang]}">${LOGO}<span>ReelsBox</span></a><a class="lang" href="${PATHS[key][other]}" hreflang="${other}" lang="${other}">${ui.other}</a></header>
