@@ -1,5 +1,5 @@
 // Baut die Webseite reelsbox.de aus den Texten im App-Projekt.
-// Aufruf: node build.js   (liest ../ReelBox/docs/*.md, schreibt index.html, datenschutz/, impressum/)
+// Aufruf: node build.js   (liest ../ReelBox/docs/*.md; Deutsch unter /, Englisch unter /en/)
 const fs = require('fs');
 const path = require('path');
 
@@ -40,7 +40,21 @@ function md(text) {
 
 const LOGO = `<svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#25D366"/><path d="M12 18h24v16a3 3 0 0 1-3 3H15a3 3 0 0 1-3-3z" fill="#fff"/><path d="M10 14a2 2 0 0 1 2-2h24a2 2 0 0 1 2 2v4H10z" fill="#E7FCE3"/><path d="M21 23.5v8l7-4z" fill="#128C7E"/></svg>`;
 
-function page({ title, description, body, lang = 'de' }) {
+// Zwei Sprachen: Deutsch unter /, Englisch unter /en/. Umschalter oben rechts
+// führt zur gleichen Seite in der anderen Sprache.
+const PATHS = {
+  home: { de: '/', en: '/en/' },
+  privacy: { de: '/datenschutz/', en: '/en/privacy/' },
+  legal: { de: '/impressum/', en: '/en/legal-notice/' },
+};
+const UI = {
+  de: { start: 'Start', privacy: 'Datenschutz', legal: 'Impressum', other: 'English', otherLang: 'en' },
+  en: { start: 'Home', privacy: 'Privacy policy', legal: 'Legal notice', other: 'Deutsch', otherLang: 'de' },
+};
+
+function page({ key, lang, title, description, body }) {
+  const ui = UI[lang];
+  const other = ui.otherLang;
   return `<!doctype html>
 <html lang="${lang}">
 <head>
@@ -48,16 +62,18 @@ function page({ title, description, body, lang = 'de' }) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${title}</title>
 <meta name="description" content="${description}">
+<link rel="alternate" hreflang="de" href="https://reelsbox.de${PATHS[key].de}">
+<link rel="alternate" hreflang="en" href="https://reelsbox.de${PATHS[key].en}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<header class="top"><a class="brand" href="/">${LOGO}<span>ReelsBox</span></a></header>
+<header class="top"><a class="brand" href="${PATHS.home[lang]}">${LOGO}<span>ReelsBox</span></a><a class="lang" href="${PATHS[key][other]}" hreflang="${other}" lang="${other}">${ui.other}</a></header>
 <main>
 ${body}
 </main>
 <footer>
-<a href="/">Start</a> · <a href="/datenschutz/">Datenschutz / Privacy</a> · <a href="/impressum/">Impressum / Legal notice</a>
+<a href="${PATHS.home[lang]}">${ui.start}</a> · <a href="${PATHS.privacy[lang]}">${ui.privacy}</a> · <a href="${PATHS.legal[lang]}">${ui.legal}</a>
 <div class="small">© ${new Date().getFullYear()} evele GmbH</div>
 </footer>
 </body>
@@ -65,7 +81,8 @@ ${body}
 `;
 }
 
-const home = `
+const HOME = {
+  de: `
 <section class="hero">
   ${LOGO.replace('width="40" height="40"', 'width="96" height="96"')}
   <h1>ReelsBox</h1>
@@ -78,11 +95,28 @@ const home = `
   <div><strong>2. Ordner wählen</strong><span>TikTok, Rezepte, Sport – du entscheidest.</span></div>
   <div><strong>3. Wiederfinden</strong><span>Suchen, sortieren, mit einem Tipp öffnen.</span></div>
 </section>
-<section class="en">
-  <h2>ReelsBox – a wallet for your reels</h2>
-  <p>Save videos from TikTok, YouTube, Instagram and Facebook in one place, in your own folders. Everything stays on your phone.</p>
+`,
+  en: `
+<section class="hero">
+  ${LOGO.replace('width="40" height="40"', 'width="96" height="96"')}
+  <h1>ReelsBox</h1>
+  <p class="lead">A wallet for your reels.</p>
+  <p>Save videos from TikTok, YouTube, Instagram and Facebook in one place – in your own folders. With your own image, note and voice note. Everything stays on your phone.</p>
+  <p class="badge">Coming soon to Google Play</p>
 </section>
-`;
+<section class="steps">
+  <div><strong>1. Share</strong><span>Tap “Share” on a video and choose ReelsBox.</span></div>
+  <div><strong>2. Pick a folder</strong><span>TikTok, recipes, sport – you decide.</span></div>
+  <div><strong>3. Find it again</strong><span>Search, sort and open with one tap.</span></div>
+</section>
+`,
+};
+
+// Die Texte in docs/*.md: oben Deutsch, nach "---" Englisch.
+function split(file) {
+  const [de, en] = fs.readFileSync(path.join(DOCS, file), 'utf8').replace(/\r/g, '').split(/\n---\n/);
+  return { de: md(de), en: md(en) };
+}
 
 const css = `:root{--bg:#F7F7F7;--surface:#fff;--text:#111B21;--muted:#667781;--accent:#25D366;--accent-dark:#128C7E;--chip:#E7FCE3;--border:#E9EDEF}
 @media (prefers-color-scheme:dark){:root{--bg:#0B141A;--surface:#111B21;--text:#E9EDEF;--muted:#8696A0;--chip:#103529;--border:#22313A}}
@@ -91,6 +125,8 @@ body{margin:0;background:var(--bg);color:var(--text);font:17px/1.6 system-ui,-ap
 a{color:var(--accent-dark)}
 @media (prefers-color-scheme:dark){a{color:var(--accent)}}
 .top{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px}
+.top{display:flex;align-items:center;justify-content:space-between}
+.lang{font-weight:600;text-decoration:none;border:1px solid var(--border);border-radius:999px;padding:4px 14px}
 .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);font-weight:700;font-size:20px}
 main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
 h1{font-size:30px;line-height:1.25;margin:24px 0 12px}
@@ -107,8 +143,6 @@ p{overflow-wrap:anywhere}
 @media (min-width:640px){.steps{grid-template-columns:repeat(3,1fr)}}
 .steps div{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:4px}
 .steps span{color:var(--muted);font-size:15px}
-.en{color:var(--muted)}
-.en h2{color:var(--text)}
 footer{text-align:center;color:var(--muted);font-size:14px;padding:24px 16px 40px;border-top:1px solid var(--border)}
 footer .small{margin-top:6px}
 `;
@@ -119,21 +153,32 @@ function write(rel, content) {
   fs.writeFileSync(file, content);
 }
 
-write('index.html', page({
-  title: 'ReelsBox – der Geldbeutel für deine Reels',
-  description: 'Speichere Videos aus TikTok, YouTube, Instagram und Facebook an einem Ort. Alles bleibt auf deinem Handy.',
-  body: home,
-}));
-write('datenschutz/index.html', page({
-  title: 'Datenschutz – ReelsBox',
-  description: 'Datenschutzerklärung der App ReelsBox / Privacy policy',
-  body: md(fs.readFileSync(path.join(DOCS, 'Datenschutz.md'), 'utf8')),
-}));
-write('impressum/index.html', page({
-  title: 'Impressum – ReelsBox',
-  description: 'Impressum / Legal notice',
-  body: md(fs.readFileSync(path.join(DOCS, 'Impressum.md'), 'utf8')),
-}));
+const privacy = split('Datenschutz.md');
+const legal = split('Impressum.md');
+for (const lang of ['de', 'en']) {
+  const de = lang === 'de';
+  const dir = (key) => PATHS[key][lang].slice(1);
+  write(dir('home') + 'index.html', page({
+    key: 'home', lang,
+    title: de ? 'ReelsBox – der Geldbeutel für deine Reels' : 'ReelsBox – a wallet for your reels',
+    description: de
+      ? 'Speichere Videos aus TikTok, YouTube, Instagram und Facebook an einem Ort. Alles bleibt auf deinem Handy.'
+      : 'Save videos from TikTok, YouTube, Instagram and Facebook in one place. Everything stays on your phone.',
+    body: HOME[lang],
+  }));
+  write(dir('privacy') + 'index.html', page({
+    key: 'privacy', lang,
+    title: de ? 'Datenschutz – ReelsBox' : 'Privacy policy – ReelsBox',
+    description: de ? 'Datenschutzerklärung der App ReelsBox' : 'Privacy policy of the ReelsBox app',
+    body: privacy[lang],
+  }));
+  write(dir('legal') + 'index.html', page({
+    key: 'legal', lang,
+    title: de ? 'Impressum – ReelsBox' : 'Legal notice – ReelsBox',
+    description: de ? 'Impressum' : 'Legal notice',
+    body: legal[lang],
+  }));
+}
 write('style.css', css);
 write('favicon.svg', LOGO.replace(' width="40" height="40" aria-hidden="true"', ' xmlns="http://www.w3.org/2000/svg"'));
 write('.nojekyll', '');
