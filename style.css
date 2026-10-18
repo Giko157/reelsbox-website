@@ -25,3 +25,4 @@ p{overflow-wrap:anywhere}
 .steps span{color:var(--muted);font-size:15px}
 footer{text-align:center;color:var(--muted);font-size:14px;padding:24px 16px 40px;border-top:1px solid var(--border)}
 footer .small{margin-top:6px}
+footer .social{margin-top:8px}

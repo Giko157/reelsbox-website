@@ -74,6 +74,7 @@ ${body}
 </main>
 <footer>
 <a href="${PATHS.home[lang]}">${ui.start}</a> · <a href="${PATHS.privacy[lang]}">${ui.privacy}</a> · <a href="${PATHS.legal[lang]}">${ui.legal}</a>
+<div class="social"><a href="https://www.instagram.com/reelsboxapp/" rel="noopener">Instagram</a> · <a href="https://www.tiktok.com/@reelsboxapp" rel="noopener">TikTok</a> · <a href="https://www.facebook.com/1409324085595600" rel="noopener">Facebook</a></div>
 <div class="small">© ${new Date().getFullYear()} evele GmbH</div>
 </footer>
 </body>
@@ -145,6 +146,7 @@ p{overflow-wrap:anywhere}
 .steps span{color:var(--muted);font-size:15px}
 footer{text-align:center;color:var(--muted);font-size:14px;padding:24px 16px 40px;border-top:1px solid var(--border)}
 footer .small{margin-top:6px}
+footer .social{margin-top:8px}
 `;
 
 function write(rel, content) {
