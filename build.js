@@ -74,7 +74,7 @@ ${body}
 </main>
 <footer>
 <a href="${PATHS.home[lang]}">${ui.start}</a> · <a href="${PATHS.privacy[lang]}">${ui.privacy}</a> · <a href="${PATHS.legal[lang]}">${ui.legal}</a>
-<div class="social"><a href="https://www.instagram.com/reelsboxapp/" rel="noopener">Instagram</a> · <a href="https://www.tiktok.com/@reelsboxapp" rel="noopener">TikTok</a> · <a href="https://www.facebook.com/1409324085595600" rel="noopener">Facebook</a></div>
+<div class="social"><a href="https://www.instagram.com/reelsboxapp/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.tiktok.com/@reelsboxapp" target="_blank" rel="noopener">TikTok</a> · <a href="https://www.facebook.com/1409324085595600" target="_blank" rel="noopener">Facebook</a></div>
 <div class="small">© ${new Date().getFullYear()} evele GmbH</div>
 </footer>
 </body>
