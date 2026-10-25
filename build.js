@@ -82,6 +82,12 @@ ${body}
 `;
 }
 
+// Knopf zum Play Store (Store-Seite in der passenden Sprache).
+const PLAY_URL = 'https://play.google.com/store/apps/details?id=com.reelsbox.app';
+function playButton(lang, label) {
+  return `<a class="play" href="${PLAY_URL}&amp;hl=${lang}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></svg>${label}</a>`;
+}
+
 const HOME = {
   de: `
 <section class="hero">
@@ -89,7 +95,8 @@ const HOME = {
   <h1>ReelsBox</h1>
   <p class="lead">Der Geldbeutel für deine Reels.</p>
   <p>Speichere Videos aus TikTok, YouTube, Instagram und Facebook an einem Ort – in deinen eigenen Ordnern. Mit eigenem Bild, Notiz und Sprachnotiz. Alles bleibt nur auf deinem Handy.</p>
-  <p class="badge">Bald bei Google Play</p>
+  ${playButton('de', 'Bei Google Play laden')}
+  <p class="note">Kostenlos · ohne Werbung · für Android</p>
 </section>
 <section class="steps">
   <div><strong>1. Teilen</strong><span>Im Video auf „Teilen“ tippen und ReelsBox wählen.</span></div>
@@ -103,7 +110,8 @@ const HOME = {
   <h1>ReelsBox</h1>
   <p class="lead">A wallet for your reels.</p>
   <p>Save videos from TikTok, YouTube, Instagram and Facebook in one place – in your own folders. With your own image, note and voice note. Everything stays on your phone.</p>
-  <p class="badge">Coming soon to Google Play</p>
+  ${playButton('en', 'Get it on Google Play')}
+  <p class="note">Free · no ads · for Android</p>
 </section>
 <section class="steps">
   <div><strong>1. Share</strong><span>Tap “Share” on a video and choose ReelsBox.</span></div>
@@ -139,7 +147,9 @@ p{overflow-wrap:anywhere}
 .hero{text-align:center;padding:24px 0 8px}
 .hero h1{font-size:40px;margin:16px 0 4px}
 .lead{font-size:22px;color:var(--accent-dark);font-weight:600;margin:0 0 16px}
-.badge{display:inline-block;background:var(--chip);color:var(--accent-dark);border-radius:999px;padding:6px 16px;font-weight:600}
+.play{display:inline-flex;align-items:center;gap:8px;background:var(--accent-dark);color:#fff;border-radius:999px;padding:12px 24px;min-height:48px;font-weight:700;font-size:18px;text-decoration:none;margin-top:8px}
+.play:hover{background:#0F7A6E}
+.note{color:var(--muted);font-size:15px;margin:10px 0 0}
 .steps{display:grid;gap:12px;margin:32px 0}
 @media (min-width:640px){.steps{grid-template-columns:repeat(3,1fr)}}
 .steps div{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:4px}
