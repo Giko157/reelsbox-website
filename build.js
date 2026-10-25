@@ -64,7 +64,10 @@ function page({ key, lang, title, description, body }) {
 <meta name="description" content="${description}">
 <link rel="alternate" hreflang="de" href="https://reelsbox.de${PATHS[key].de}">
 <link rel="alternate" hreflang="en" href="https://reelsbox.de${PATHS[key].en}">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/style.css?v=${Date.now()}">
 </head>
 <body>
@@ -167,7 +170,7 @@ const HOME_TEXT = {
   },
   en: {
     kicker: 'A wallet for your reels',
-    h1: 'All your reels. <span class="hl">One place.</span>',
+    h1: 'All Reels. <span class="hl">One Place.</span>',
     lead: 'Save videos from TikTok, YouTube, Instagram and Facebook in your own folders. One tap on “Share” is all it takes.',
     play: 'Get it on Google Play',
     note: 'Free · no ads · for Android',
