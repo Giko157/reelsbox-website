@@ -53,16 +53,18 @@ const UI = {
 };
 
 // Social-Media-Profile (reine Links, keine eingebetteten Inhalte → keine Daten an Dritte, Datenschutz bleibt gleich).
-// Später ergänzen: YouTube, LinkedIn (gleiches Muster, Symbol in SOCIAL_ICONS).
+// Später ergänzen: LinkedIn (gleiches Muster, Symbol in SOCIAL_ICONS).
 const SOCIAL = [
   ['Instagram', 'https://www.instagram.com/reelsboxapp/'],
   ['TikTok', 'https://www.tiktok.com/@reelsboxapp'],
   ['Facebook', 'https://www.facebook.com/1409324085595600'],
+  ['YouTube', 'https://www.youtube.com/@reelsbox_app'],
 ];
 const SOCIAL_ICONS = {
   Instagram: '<rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/>',
   TikTok: '<path fill="currentColor" d="M16.6 3c.3 2.2 1.6 3.6 3.9 3.8v3.1c-1.4.1-2.6-.3-3.9-1.1v5.9c0 4-3.8 6.4-7.2 5.1-2.4-.9-3.7-3.5-3-6 .8-2.8 3.6-4.3 6.3-3.6v3.2c-1.3-.5-2.8.2-3.2 1.5-.4 1.4.6 2.9 2.1 2.9 1.3 0 2.2-1 2.2-2.4V3z"/>',
   Facebook: '<path fill="currentColor" d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H7.9v3h2.6V21z"/>',
+  YouTube: '<path fill="currentColor" d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2C2 8.8 2 12 2 12s0 3.2.4 4.8a2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8zM10 15V9l5.2 3z"/>',
 };
 const socialLinks = () => SOCIAL.map(([name, href]) =>
   `<a href="${href}" target="_blank" rel="noopener" aria-label="${name}" title="${name}"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">${SOCIAL_ICONS[name]}</svg></a>`).join('');
