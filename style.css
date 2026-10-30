@@ -66,4 +66,8 @@ main.home{max-width:none;padding:0}
 }
 footer{text-align:center;color:var(--muted);font-size:14px;padding:24px 16px 40px;border-top:1px solid var(--border)}
 footer .small{margin-top:6px}
-footer .social{margin-top:8px}
+footer .social{margin-top:12px}
+.social{display:flex;justify-content:center;gap:12px}
+.social a{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:var(--chip);color:var(--hl);text-decoration:none}
+.social a:hover{background:var(--accent);color:#fff}
+.cta .follow{margin:28px 0 10px;font-size:15px;font-weight:600;color:var(--muted)}

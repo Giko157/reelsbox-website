@@ -48,9 +48,24 @@ const PATHS = {
   legal: { de: '/impressum/', en: '/en/legal-notice/' },
 };
 const UI = {
-  de: { start: 'Start', privacy: 'Datenschutz', legal: 'Impressum', other: 'English', otherLang: 'en' },
-  en: { start: 'Home', privacy: 'Privacy policy', legal: 'Legal notice', other: 'Deutsch', otherLang: 'de' },
+  de: { start: 'Start', privacy: 'Datenschutz', legal: 'Impressum', other: 'English', otherLang: 'en', follow: 'Folge ReelsBox' },
+  en: { start: 'Home', privacy: 'Privacy policy', legal: 'Legal notice', other: 'Deutsch', otherLang: 'de', follow: 'Follow ReelsBox' },
 };
+
+// Social-Media-Profile (reine Links, keine eingebetteten Inhalte → keine Daten an Dritte, Datenschutz bleibt gleich).
+// Später ergänzen: YouTube, LinkedIn (gleiches Muster, Symbol in SOCIAL_ICONS).
+const SOCIAL = [
+  ['Instagram', 'https://www.instagram.com/reelsboxapp/'],
+  ['TikTok', 'https://www.tiktok.com/@reelsboxapp'],
+  ['Facebook', 'https://www.facebook.com/1409324085595600'],
+];
+const SOCIAL_ICONS = {
+  Instagram: '<rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/>',
+  TikTok: '<path fill="currentColor" d="M16.6 3c.3 2.2 1.6 3.6 3.9 3.8v3.1c-1.4.1-2.6-.3-3.9-1.1v5.9c0 4-3.8 6.4-7.2 5.1-2.4-.9-3.7-3.5-3-6 .8-2.8 3.6-4.3 6.3-3.6v3.2c-1.3-.5-2.8.2-3.2 1.5-.4 1.4.6 2.9 2.1 2.9 1.3 0 2.2-1 2.2-2.4V3z"/>',
+  Facebook: '<path fill="currentColor" d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H7.9v3h2.6V21z"/>',
+};
+const socialLinks = () => SOCIAL.map(([name, href]) =>
+  `<a href="${href}" target="_blank" rel="noopener" aria-label="${name}" title="${name}"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">${SOCIAL_ICONS[name]}</svg></a>`).join('');
 
 function page({ key, lang, title, description, body }) {
   const ui = UI[lang];
@@ -77,7 +92,7 @@ ${body}
 </main>
 <footer>
 <a href="${PATHS.home[lang]}">${ui.start}</a> · <a href="${PATHS.privacy[lang]}">${ui.privacy}</a> · <a href="${PATHS.legal[lang]}">${ui.legal}</a>
-<div class="social"><a href="https://www.instagram.com/reelsboxapp/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.tiktok.com/@reelsboxapp" target="_blank" rel="noopener">TikTok</a> · <a href="https://www.facebook.com/1409324085595600" target="_blank" rel="noopener">Facebook</a></div>
+<div class="social">${socialLinks()}</div>
 <div class="small">© ${new Date().getFullYear()} evele GmbH</div>
 </footer>
 </body>
@@ -144,17 +159,17 @@ const HOME_TEXT = {
     ],
     featuresTitle: 'Das kann ReelsBox',
     features: [
-      // video: später z. B. 'video/de-teilen.mp4' eintragen (Video-Platz 1).
-      { img: 'de-04-teilen', video: null, alt: 'Speichern-Fenster mit Ordner-Auswahl, Bild und Sprachnotiz',
+      // Videos: echte Bildschirmaufnahmen in normalem Tempo, gebaut mit ReelBox/play-store/src/web-videos.js.
+      // Englisch nur mit englischen Aufnahmen – ohne englische Aufnahme bleibt das Bild.
+      { img: 'de-04-teilen', video: 'video/de-teilen.mp4', alt: 'Speichern-Fenster mit Ordner-Auswahl, Bild und Sprachnotiz',
         h: 'Teilen in 3 Taps', p: 'Im Video auf „Teilen“ tippen, ReelsBox wählen, Ordner aussuchen. Fertig – ReelsBox merkt sich nur den Link.' },
-      { img: 'de-07-ordnerfoto', alt: 'Große Vorschau des Ordnerfotos „Reiseideen“ mit den Knöpfen Öffnen, Bild ändern, Bearbeiten', badge: 'NEU: eigenes Ordnerfoto',
+      { img: 'de-07-ordnerfoto', video: 'video/de-ordner.mp4', alt: 'Große Vorschau des Ordnerfotos „Reiseideen“ mit den Knöpfen Öffnen, Bild ändern, Bearbeiten', badge: 'NEU: eigenes Ordnerfoto',
         h: 'Ordner wie im Chat', p: 'Sortiere nach Rezepten, Sport oder Reisen – mit App-Logo, Emoji oder eigenem Foto. Ein Tipp aufs Ordnerbild zeigt es groß.' },
-      { img: 'de-03-rezepte', alt: 'Ordner „Rezepte“ mit großen Karten, Vorschaubild und Notiz',
+      { img: 'de-03-rezepte', video: 'video/de-rezepte.mp4', alt: 'Ordner „Rezepte“ mit großen Karten, Vorschaubild und Notiz',
         h: 'Mit Bild und Notiz', p: 'Bei TikTok und YouTube kommen Vorschaubild und Titel von selbst. Dazu eigene Bilder, Notizen, Suchwörter und Sprachnotizen.' },
-      { img: 'de-05-suche', alt: 'Suche nach „Minute“ mit zwei Treffern aus verschiedenen Ordnern',
+      { img: 'de-05-suche', video: 'video/de-suche.mp4', alt: 'Suche nach „Minute“ mit zwei Treffern aus verschiedenen Ordnern',
         h: 'Schnell wiederfinden', p: 'Die Suche findet Ordner und Einträge aus allen Ordnern. Ein Tipp öffnet das Video wieder.' },
-      // video: später z. B. 'video/de-playlist.mp4' eintragen (Video-Platz 2).
-      { img: 'de-06-playlist', video: null, alt: 'Ordner „Workout zu Hause“ mit dem Knopf „Playlist abspielen (4)“', badge: 'NEU',
+      { img: 'de-06-playlist', video: 'video/de-playlist.mp4', alt: 'Ordner „Workout zu Hause“ mit dem Knopf „Playlist abspielen (4)“', badge: 'NEU',
         h: 'Ordner als Playlist', p: 'Mehrere YouTube-Videos in einem Ordner? Ein Tipp auf „Playlist abspielen“, und YouTube spielt sie nacheinander ab.' },
       { img: 'de-08-statistik', alt: 'Profil mit der Karte „Woher deine Einträge kommen“: Balken für TikTok, YouTube, Instagram und Facebook', badge: 'NEU',
         h: 'Woher kommen deine Reels?', p: 'Im Profil siehst du, wie viele Einträge aus TikTok, Instagram, YouTube und anderen Apps stammen. Gezählt wird nur auf deinem Handy.' },
@@ -186,17 +201,17 @@ const HOME_TEXT = {
     ],
     featuresTitle: 'What ReelsBox can do',
     features: [
-      { img: 'en-04-share', video: null, alt: 'Save screen with folder choice, picture and voice note',
+      { img: 'en-04-share', video: 'video/en-share.mp4', alt: 'Save screen with folder choice, picture and voice note',
         h: 'Share in 3 taps', p: 'Tap “Share” on a video, choose ReelsBox, pick a folder. Done – ReelsBox only keeps the link.' },
-      { img: 'en-07-folder-photo', alt: 'Big preview of the folder photo “Travel ideas” with the buttons Open, Change picture, Edit', badge: 'NEW: your own folder photo',
+      { img: 'en-07-folder-photo', video: 'video/en-folders.mp4', alt: 'Big preview of the folder photo “Travel ideas” with the buttons Open, Change picture, Edit', badge: 'NEW: your own folder photo',
         h: 'Folders like a chat', p: 'Sort into recipes, sport or travel – with app logo, emoji or your own photo. Tap a folder picture to see it big.' },
-      { img: 'en-03-recipes', alt: 'Folder “Recipes” with large cards, thumbnail and note',
+      { img: 'en-03-recipes', video: 'video/en-picture.mp4', alt: 'Folder “Recipes” with large cards, thumbnail and note',
         h: 'With picture and note', p: 'Thumbnail and title for TikTok and YouTube are added automatically. Add your own pictures, notes, search words and voice notes.' },
-      { img: 'en-05-search', alt: 'Search for “minute” with two results from different folders',
+      { img: 'en-05-search', video: 'video/en-search.mp4', alt: 'Search for “minute” with two results from different folders',
         h: 'Find everything fast', p: 'Search finds folders and items across all folders. One tap opens the video again.' },
-      { img: 'en-06-playlist', video: null, alt: 'Folder “Home workout” with the button “Play as playlist (4)”', badge: 'NEW',
+      { img: 'en-06-playlist', video: 'video/en-playlist.mp4', alt: 'Folder “Home workout” with the button “Play as playlist (4)”', badge: 'NEW',
         h: 'Folder as a playlist', p: 'Several YouTube videos in one folder? Tap “Play as playlist” and YouTube plays them one after another.' },
-      { img: 'en-08-stats', alt: 'Profile with the card “Where your items come from”: bars for TikTok, YouTube, Instagram and Facebook', badge: 'NEW',
+      { img: 'en-08-stats', video: 'video/en-stats.mp4', alt: 'Profile with the card “Where your items come from”: bars for TikTok, YouTube, Instagram and Facebook', badge: 'NEW',
         h: 'Where your reels come from', p: 'Your profile shows how many items come from TikTok, Instagram, YouTube and other apps. Counted only on your phone.' },
     ],
     moreTitle: 'And there’s more',
@@ -248,6 +263,8 @@ ${t.more.map(([h, p]) => `    <div><strong>${h}</strong><span>${p}</span></div>`
   <p>${t.ctaText}</p>
   ${playButton(lang, t.play)}
   <p class="note">${t.note}</p>
+  <p class="follow">${UI[lang].follow}</p>
+  <div class="social">${socialLinks()}</div>
 </div></section>
 ${hasVideo ? VIDEO_SCRIPT : ''}`;
 }
@@ -326,7 +343,11 @@ main.home{max-width:none;padding:0}
 }
 footer{text-align:center;color:var(--muted);font-size:14px;padding:24px 16px 40px;border-top:1px solid var(--border)}
 footer .small{margin-top:6px}
-footer .social{margin-top:8px}
+footer .social{margin-top:12px}
+.social{display:flex;justify-content:center;gap:12px}
+.social a{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:var(--chip);color:var(--hl);text-decoration:none}
+.social a:hover{background:var(--accent);color:#fff}
+.cta .follow{margin:28px 0 10px;font-size:15px;font-weight:600;color:var(--muted)}
 `;
 
 function write(rel, content) {
