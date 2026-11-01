@@ -104,8 +104,10 @@ ${body}
 
 // Knopf zum Play Store (Store-Seite in der passenden Sprache).
 const PLAY_URL = 'https://play.google.com/store/apps/details?id=com.reelsbox.app';
-function playButton(lang, label) {
-  return `<a class="play" href="${PLAY_URL}&amp;hl=${lang}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></svg>${label}</a>`;
+// Offizielle Abzeichen von Apple und Google (img/badge-*), nicht verändern – nur leerer Rand der Play-Datei ist abgeschnitten.
+const APPSTORE_URL = { de: 'https://apps.apple.com/de/app/id6824975745', en: 'https://apps.apple.com/app/id6824975745' };
+function storeButtons(lang, t) {
+  return `<div class="stores"><a href="${PLAY_URL}&amp;hl=${lang}" target="_blank" rel="noopener"><img src="/img/badge-play-${lang}.png" alt="${t.play}" width="646" height="194"></a><a href="${APPSTORE_URL[lang]}" target="_blank" rel="noopener"><img src="/img/badge-appstore-${lang}.svg" alt="${t.appstore}" width="120" height="40"></a></div>`;
 }
 
 // ---------- Startseite ----------
@@ -148,7 +150,8 @@ const HOME_TEXT = {
     h1: 'Alle Reels. <span class="hl">Ein Ort.</span>',
     lead: 'Speichere Videos aus TikTok, YouTube, Instagram und Facebook in deinen eigenen Ordnern. Ein Tipp auf „Teilen“ genügt.',
     play: 'Bei Google Play laden',
-    note: 'Kostenlos · ohne Werbung · für Android',
+    appstore: 'Im App Store laden',
+    note: 'Kostenlos · ohne Werbung · für Android und iPhone',
     hero: [
       { img: 'de-04-teilen', alt: 'Speichern-Fenster von ReelsBox: Ordner für ein geteiltes Instagram-Reel auswählen' },
       { img: 'de-02-ordner', alt: 'ReelsBox-Startseite mit Ordnern wie Rezepte, Workout zu Hause und Reiseideen' },
@@ -190,7 +193,8 @@ const HOME_TEXT = {
     h1: 'All Reels. <span class="hl">One Place.</span>',
     lead: 'Save videos from TikTok, YouTube, Instagram and Facebook in your own folders. One tap on “Share” is all it takes.',
     play: 'Get it on Google Play',
-    note: 'Free · no ads · for Android',
+    appstore: 'Download on the App Store',
+    note: 'Free · no ads · for Android and iPhone',
     hero: [
       { img: 'en-04-share', alt: 'ReelsBox save screen: picking a folder for a shared Instagram reel' },
       { img: 'en-02-folders', alt: 'ReelsBox home screen with folders like Recipes, Home workout and Travel ideas' },
@@ -236,7 +240,7 @@ function home(lang) {
     <p class="kicker">${t.kicker}</p>
     <h1>${t.h1}</h1>
     <p class="lead">${t.lead}</p>
-    ${playButton(lang, t.play)}
+    ${storeButtons(lang, t)}
     <p class="note">${t.note}</p>
   </div>
   <div class="hero-phones">
@@ -263,7 +267,7 @@ ${t.more.map(([h, p]) => `    <div><strong>${h}</strong><span>${p}</span></div>`
 <section class="cta"><div class="wrap">
   <h2>${t.ctaTitle}</h2>
   <p>${t.ctaText}</p>
-  ${playButton(lang, t.play)}
+  ${storeButtons(lang, t)}
   <p class="note">${t.note}</p>
   <p class="follow">${UI[lang].follow}</p>
   <div class="social">${socialLinks()}</div>
@@ -294,9 +298,11 @@ hr{border:0;border-top:1px solid var(--border);margin:48px 0}
 ul{padding-left:22px}
 li{margin:4px 0}
 p{overflow-wrap:anywhere}
-.play{display:inline-flex;align-items:center;gap:8px;background:var(--accent-dark);color:#fff;border-radius:999px;padding:12px 24px;min-height:48px;font-weight:700;font-size:18px;text-decoration:none;margin-top:8px}
-.play:hover{background:#0F7A6E}
-.play:focus-visible,.lang:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.stores{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.stores a{display:block}
+.stores img{display:block;height:48px;width:auto}
+.cta .stores{justify-content:center}
+.stores a:focus-visible,.lang:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 .note{color:var(--muted);font-size:15px;margin:10px 0 0}
 main.home{max-width:none;padding:0}
 .wrap{max-width:1120px;margin:0 auto;padding:0 16px}
