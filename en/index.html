@@ -11,7 +11,7 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/style.css?v=1793547187266">
+<link rel="stylesheet" href="/style.css?v=1794075767256">
 </head>
 <body>
 <header class="top"><a class="brand" href="/en/"><svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#25D366"/><path d="M12 18h24v16a3 3 0 0 1-3 3H15a3 3 0 0 1-3-3z" fill="#fff"/><path d="M10 14a2 2 0 0 1 2-2h24a2 2 0 0 1 2 2v4H10z" fill="#E7FCE3"/><path d="M21 23.5v8l7-4z" fill="#128C7E"/></svg><span>ReelsBox</span></a><a class="lang" href="/" hreflang="de" lang="de">Deutsch</a></header>
@@ -36,6 +36,13 @@
   <div class="band-item"><span class="band-icon"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg></span><strong>No account, no ads</strong><span>Install and get started right away.</span></div>
   <div class="band-item"><span class="band-icon"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18h3"/><path d="M9.5 10.5l2 2 3.5-3.5"/></svg></span><strong>Stays on your phone</strong><span>Everything is stored only on your phone.</span></div>
 </div></section>
+<section class="intro"><div class="wrap">
+  <h2 class="section-title">ReelsBox in 20 seconds</h2>
+  <figure class="intro-video">
+    <video muted loop playsinline preload="none" poster="/img/erklaer-en.webp" data-src="/video/erklaer-en.mp4" width="540" height="960" aria-label="Explainer video: collect and sort songs, save reels from Instagram, TikTok, YouTube and Facebook, search"></video>
+    <button type="button" class="sound" data-on="Sound on" data-off="Sound off" aria-pressed="false">🔇 Sound on</button>
+  </figure>
+</div></section>
 <section class="features"><div class="wrap">
   <h2 class="section-title">What ReelsBox can do</h2>
   <div class="feature">
@@ -52,15 +59,19 @@
   </div>
   <div class="feature">
     <div class="feature-text"><h3>Find everything fast</h3><p>Search finds folders and items across all folders. One tap opens the video again.</p></div>
-    <div class="feature-media"><figure class="phone"><video muted loop playsinline preload="none" poster="/img/en-05-search.webp" data-src="/video/en-search.mp4" width="600" height="1334" aria-label="Search for “minute” with two results from different folders"></video></figure></div>
+    <div class="feature-media"><figure class="phone"><video muted loop playsinline preload="none" poster="/img/en-05-search.webp" data-src="/video/en-search.mp4" width="600" height="1334" aria-label="Search for “Re”: folders and items with thumbnails from all folders"></video></figure></div>
   </div>
   <div class="feature">
     <div class="feature-text"><span class="badge">NEW</span><h3>Folder as a playlist</h3><p>Several YouTube videos in one folder? Tap “Play as playlist” and YouTube plays them one after another.</p></div>
-    <div class="feature-media"><figure class="phone"><video muted loop playsinline preload="none" poster="/img/en-06-playlist.webp" data-src="/video/en-playlist.mp4" width="600" height="1334" aria-label="Folder “Home workout” with the button “Play as playlist (4)”"></video></figure></div>
+    <div class="feature-media"><figure class="phone"><video muted loop playsinline preload="none" poster="/img/en-06-playlist.webp" data-src="/video/en-playlist.mp4" width="600" height="1334" aria-label="Folder “Music” with the button “Play as playlist (7)”"></video></figure></div>
+  </div>
+  <div class="feature">
+    <div class="feature-text"><span class="badge">NEW</span><h3>Your own order</h3><p>Tap “Change order”, hold an item for a moment and drag it up or down. The playlist follows your order.</p></div>
+    <div class="feature-media"><figure class="phone"><video muted loop playsinline preload="none" poster="/img/en-09-order.webp" data-src="/video/en-order.mp4" width="600" height="1334" aria-label="Change order: the song “Theo Lindqvist – Leise Stunden” is dragged to the top"></video></figure></div>
   </div>
   <div class="feature">
     <div class="feature-text"><span class="badge">NEW</span><h3>Where your reels come from</h3><p>Your profile shows how many items come from TikTok, Instagram, YouTube and other apps. Counted only on your phone.</p></div>
-    <div class="feature-media"><figure class="phone"><video muted loop playsinline preload="none" poster="/img/en-08-stats.webp" data-src="/video/en-stats.mp4" width="600" height="1334" aria-label="Profile with the card “Where your items come from”: bars for TikTok, YouTube, Instagram and Facebook"></video></figure></div>
+    <div class="feature-media"><figure class="phone"><video muted loop playsinline preload="none" poster="/img/en-08-stats.webp" data-src="/video/en-stats.mp4" width="600" height="1334" aria-label="Profile with the card “Where your items come from”: bars for YouTube, TikTok, Instagram, PDF and more"></video></figure></div>
   </div>
 </div></section>
 <section class="more"><div class="wrap">
@@ -86,6 +97,10 @@ function load(el){if(!el.src){el.src=el.getAttribute('data-src');}if(!calm){el.p
 if(!('IntersectionObserver' in window)){v.forEach(load);return;}
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){load(e.target);}else if(e.target.src){e.target.pause();}});},{rootMargin:'200px'});
 v.forEach(function(el){io.observe(el);});})();
+(function(){var b=document.querySelector('.sound');if(!b)return;var v=b.parentNode.querySelector('video');
+b.addEventListener('click',function(){if(!v.src){v.src=v.getAttribute('data-src');}var on=v.muted;v.muted=!on;
+if(on){v.currentTime=0;}v.play().catch(function(){});b.setAttribute('aria-pressed',on?'true':'false');
+b.textContent=(on?'🔊 ':'🔇 ')+(on?b.getAttribute('data-off'):b.getAttribute('data-on'));});})();
 </script>
 </main>
 <footer>

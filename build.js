@@ -142,6 +142,10 @@ function load(el){if(!el.src){el.src=el.getAttribute('data-src');}if(!calm){el.p
 if(!('IntersectionObserver' in window)){v.forEach(load);return;}
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){load(e.target);}else if(e.target.src){e.target.pause();}});},{rootMargin:'200px'});
 v.forEach(function(el){io.observe(el);});})();
+(function(){var b=document.querySelector('.sound');if(!b)return;var v=b.parentNode.querySelector('video');
+b.addEventListener('click',function(){if(!v.src){v.src=v.getAttribute('data-src');}var on=v.muted;v.muted=!on;
+if(on){v.currentTime=0;}v.play().catch(function(){});b.setAttribute('aria-pressed',on?'true':'false');
+b.textContent=(on?'🔊 ':'🔇 ')+(on?b.getAttribute('data-off'):b.getAttribute('data-on'));});})();
 </script>`;
 
 const HOME_TEXT = {
@@ -162,6 +166,8 @@ const HOME_TEXT = {
       ['noads', 'Kein Konto, keine Werbung', 'Installieren und sofort loslegen.'],
       ['phone', 'Bleibt auf deinem Handy', 'Alles wird nur auf deinem Handy gespeichert.'],
     ],
+    introTitle: 'ReelsBox in 20 Sekunden',
+    introVideo: { src: 'video/erklaer-de.mp4', poster: 'erklaer-de', alt: 'Erklärvideo: Songs sammeln und ordnen, Reels aus Instagram, TikTok, YouTube und Facebook speichern, suchen', on: 'Ton an', off: 'Ton aus' },
     featuresTitle: 'Das kann ReelsBox',
     features: [
       // Videos: echte Bildschirmaufnahmen in normalem Tempo, gebaut mit ReelBox/play-store/src/web-videos.js.
@@ -172,11 +178,13 @@ const HOME_TEXT = {
         h: 'Ordner wie im Chat', p: 'Sortiere nach Rezepten, Sport oder Reisen – mit App-Logo, Emoji oder eigenem Foto. Ein Tipp aufs Ordnerbild zeigt es groß.' },
       { img: 'de-03-rezepte', video: 'video/de-rezepte.mp4', alt: 'Ordner „Rezepte“ mit großen Karten, Vorschaubild und Notiz',
         h: 'Mit Bild und Notiz', p: 'Bei TikTok und YouTube kommen Vorschaubild und Titel von selbst. Dazu eigene Bilder, Notizen, Suchwörter und Sprachnotizen.' },
-      { img: 'de-05-suche', video: 'video/de-suche.mp4', alt: 'Suche nach „Minute“ mit zwei Treffern aus verschiedenen Ordnern',
+      { img: 'de-05-suche', video: 'video/de-suche.mp4', alt: 'Suche nach „Re“: Ordner und Einträge mit Vorschaubild aus allen Ordnern',
         h: 'Schnell wiederfinden', p: 'Die Suche findet Ordner und Einträge aus allen Ordnern. Ein Tipp öffnet das Video wieder.' },
-      { img: 'de-06-playlist', video: 'video/de-playlist.mp4', alt: 'Ordner „Workout zu Hause“ mit dem Knopf „Playlist abspielen (4)“', badge: 'NEU',
+      { img: 'de-06-playlist', video: 'video/de-playlist.mp4', alt: 'Ordner „Musik“ mit dem Knopf „Playlist abspielen (7)“', badge: 'NEU',
         h: 'Ordner als Playlist', p: 'Mehrere YouTube-Videos in einem Ordner? Ein Tipp auf „Playlist abspielen“, und YouTube spielt sie nacheinander ab.' },
-      { img: 'de-08-statistik', alt: 'Profil mit der Karte „Woher deine Einträge kommen“: Balken für TikTok, YouTube, Instagram und Facebook', badge: 'NEU',
+      { img: 'de-09-reihenfolge', video: 'video/de-reihenfolge.mp4', alt: 'Reihenfolge ändern: Das Lied „Nova Sun – Dachterrasse“ wird nach oben geschoben', badge: 'NEU',
+        h: 'Deine eigene Reihenfolge', p: 'Tippe auf „Reihenfolge ändern“, halte einen Eintrag kurz und schieb ihn nach oben oder unten. Die Playlist übernimmt deine Reihenfolge.' },
+      { img: 'de-08-statistik', video: 'video/de-statistik.mp4', alt: 'Profil mit der Karte „Woher deine Einträge kommen“: Balken für YouTube, TikTok, Instagram, PDF und weitere Quellen', badge: 'NEU',
         h: 'Woher kommen deine Reels?', p: 'Im Profil siehst du, wie viele Einträge aus TikTok, Instagram, YouTube und anderen Apps stammen. Gezählt wird nur auf deinem Handy.' },
     ],
     moreTitle: 'Und noch mehr',
@@ -205,6 +213,8 @@ const HOME_TEXT = {
       ['noads', 'No account, no ads', 'Install and get started right away.'],
       ['phone', 'Stays on your phone', 'Everything is stored only on your phone.'],
     ],
+    introTitle: 'ReelsBox in 20 seconds',
+    introVideo: { src: 'video/erklaer-en.mp4', poster: 'erklaer-en', alt: 'Explainer video: collect and sort songs, save reels from Instagram, TikTok, YouTube and Facebook, search', on: 'Sound on', off: 'Sound off' },
     featuresTitle: 'What ReelsBox can do',
     features: [
       { img: 'en-04-share', video: 'video/en-share.mp4', alt: 'Save screen with folder choice, picture and voice note',
@@ -213,11 +223,13 @@ const HOME_TEXT = {
         h: 'Folders like a chat', p: 'Sort into recipes, sport or travel – with app logo, emoji or your own photo. Tap a folder picture to see it big.' },
       { img: 'en-03-recipes', video: 'video/en-picture.mp4', alt: 'Folder “Recipes” with large cards, thumbnail and note',
         h: 'With picture and note', p: 'Thumbnail and title for TikTok and YouTube are added automatically. Add your own pictures, notes, search words and voice notes.' },
-      { img: 'en-05-search', video: 'video/en-search.mp4', alt: 'Search for “minute” with two results from different folders',
+      { img: 'en-05-search', video: 'video/en-search.mp4', alt: 'Search for “Re”: folders and items with thumbnails from all folders',
         h: 'Find everything fast', p: 'Search finds folders and items across all folders. One tap opens the video again.' },
-      { img: 'en-06-playlist', video: 'video/en-playlist.mp4', alt: 'Folder “Home workout” with the button “Play as playlist (4)”', badge: 'NEW',
+      { img: 'en-06-playlist', video: 'video/en-playlist.mp4', alt: 'Folder “Music” with the button “Play as playlist (7)”', badge: 'NEW',
         h: 'Folder as a playlist', p: 'Several YouTube videos in one folder? Tap “Play as playlist” and YouTube plays them one after another.' },
-      { img: 'en-08-stats', video: 'video/en-stats.mp4', alt: 'Profile with the card “Where your items come from”: bars for TikTok, YouTube, Instagram and Facebook', badge: 'NEW',
+      { img: 'en-09-order', video: 'video/en-order.mp4', alt: 'Change order: the song “Theo Lindqvist – Leise Stunden” is dragged to the top', badge: 'NEW',
+        h: 'Your own order', p: 'Tap “Change order”, hold an item for a moment and drag it up or down. The playlist follows your order.' },
+      { img: 'en-08-stats', video: 'video/en-stats.mp4', alt: 'Profile with the card “Where your items come from”: bars for YouTube, TikTok, Instagram, PDF and more', badge: 'NEW',
         h: 'Where your reels come from', p: 'Your profile shows how many items come from TikTok, Instagram, YouTube and other apps. Counted only on your phone.' },
     ],
     moreTitle: 'And there’s more',
@@ -250,6 +262,13 @@ function home(lang) {
 </div></section>
 <section class="band"><div class="wrap band-grid">
 ${t.band.map(([ic, h, p]) => `  <div class="band-item"><span class="band-icon">${icon(ic)}</span><strong>${h}</strong><span>${p}</span></div>`).join('\n')}
+</div></section>
+<section class="intro"><div class="wrap">
+  <h2 class="section-title">${t.introTitle}</h2>
+  <figure class="intro-video">
+    <video muted loop playsinline preload="none" poster="/img/${t.introVideo.poster}.webp" data-src="/${t.introVideo.src}" width="540" height="960" aria-label="${t.introVideo.alt}"></video>
+    <button type="button" class="sound" data-on="${t.introVideo.on}" data-off="${t.introVideo.off}" aria-pressed="false">🔇 ${t.introVideo.on}</button>
+  </figure>
 </div></section>
 <section class="features"><div class="wrap">
   <h2 class="section-title">${t.featuresTitle}</h2>
@@ -325,6 +344,11 @@ main.home{max-width:none;padding:0}
 .band-item span:last-child{color:var(--muted);font-size:15px;line-height:1.45}
 .band-icon{display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:var(--surface);color:var(--hl);margin-bottom:6px}
 .section-title{font-size:clamp(28px,4vw,40px);line-height:1.15;text-align:center;margin:0 0 8px}
+.intro{padding:56px 0 0}
+.intro-video{position:relative;width:min(100%,340px);margin:24px auto 0}
+.intro-video video{display:block;width:100%;height:auto;border-radius:28px;background:var(--accent-dark);box-shadow:var(--phone-shadow)}
+.sound{position:absolute;right:12px;bottom:12px;border:0;border-radius:999px;padding:10px 16px;min-height:44px;font:600 15px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:rgba(17,27,33,.72);color:#fff;cursor:pointer}
+.sound:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 .features{padding:56px 0 24px}
 .feature{display:grid;gap:24px;align-items:center;padding:40px 0}
 .feature+.feature{border-top:1px solid var(--border)}

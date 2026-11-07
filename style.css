@@ -42,6 +42,11 @@ main.home{max-width:none;padding:0}
 .band-item span:last-child{color:var(--muted);font-size:15px;line-height:1.45}
 .band-icon{display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:var(--surface);color:var(--hl);margin-bottom:6px}
 .section-title{font-size:clamp(28px,4vw,40px);line-height:1.15;text-align:center;margin:0 0 8px}
+.intro{padding:56px 0 0}
+.intro-video{position:relative;width:min(100%,340px);margin:24px auto 0}
+.intro-video video{display:block;width:100%;height:auto;border-radius:28px;background:var(--accent-dark);box-shadow:var(--phone-shadow)}
+.sound{position:absolute;right:12px;bottom:12px;border:0;border-radius:999px;padding:10px 16px;min-height:44px;font:600 15px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:rgba(17,27,33,.72);color:#fff;cursor:pointer}
+.sound:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 .features{padding:56px 0 24px}
 .feature{display:grid;gap:24px;align-items:center;padding:40px 0}
 .feature+.feature{border-top:1px solid var(--border)}
