@@ -419,7 +419,8 @@ write('favicon.svg', LOGO.replace(' width="40" height="40" aria-hidden="true"', 
 write('.nojekyll', '');
 
 // reelsbox.de/app – ein Link für Werbung: Android → Google Play, iPhone/iPad → App Store, sonst Startseite.
-// ?src=meta_de usw. wird bei Google Play als Kampagne mitgegeben (Play Console → Nutzerakquisition).
+// ?src=meta_de usw. wird bei Google Play als Kampagne mitgegeben (Play Console → Nutzerakquisition),
+// beim App Store als ct= mit Provider-ID pt=123179982 (evele GmbH) → App Store Connect → Analyse → Kampagnen.
 write('app/index.html', `<!doctype html>
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex"><title>ReelsBox</title>
@@ -428,7 +429,7 @@ write('app/index.html', `<!doctype html>
 var de=/^de/i.test(navigator.language||'');
 var ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document);
 var to=/Android/i.test(ua)?'${PLAY_URL}&referrer='+encodeURIComponent('utm_source='+src+'&utm_medium=ad&utm_campaign='+src)
-  :ios?(de?'${APPSTORE_URL.de}':'${APPSTORE_URL.en}'):(de?'/':'/en/');
+  :ios?(de?'${APPSTORE_URL.de}':'${APPSTORE_URL.en}')+'?pt=123179982&ct='+encodeURIComponent(src)+'&mt=8':(de?'/':'/en/');
 location.replace(to);})();
 </script></head>
 <body style="font-family:system-ui,sans-serif;text-align:center;padding:40px 16px">
