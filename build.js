@@ -417,4 +417,23 @@ for (const lang of ['de', 'en']) {
 write('style.css', css);
 write('favicon.svg', LOGO.replace(' width="40" height="40" aria-hidden="true"', ' xmlns="http://www.w3.org/2000/svg"'));
 write('.nojekyll', '');
+
+// reelsbox.de/app – ein Link für Werbung: Android → Google Play, iPhone/iPad → App Store, sonst Startseite.
+// ?src=meta_de usw. wird bei Google Play als Kampagne mitgegeben (Play Console → Nutzerakquisition).
+write('app/index.html', `<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>ReelsBox</title>
+<script>
+(function(){var ua=navigator.userAgent||'',q=new URLSearchParams(location.search),src=(q.get('src')||'web').replace(/[^a-z0-9_-]/gi,'');
+var de=/^de/i.test(navigator.language||'');
+var ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document);
+var to=/Android/i.test(ua)?'${PLAY_URL}&referrer='+encodeURIComponent('utm_source='+src+'&utm_medium=ad&utm_campaign='+src)
+  :ios?(de?'${APPSTORE_URL.de}':'${APPSTORE_URL.en}'):(de?'/':'/en/');
+location.replace(to);})();
+</script></head>
+<body style="font-family:system-ui,sans-serif;text-align:center;padding:40px 16px">
+<p>ReelsBox</p>
+<p><a href="${PLAY_URL}">Google Play</a> · <a href="${APPSTORE_URL.en}">App Store</a></p>
+</body></html>
+`);
 console.log('fertig');
