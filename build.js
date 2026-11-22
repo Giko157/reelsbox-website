@@ -12,6 +12,7 @@ function esc(s) {
 function inline(s) {
   return esc(s)
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\[([^\]]+)\]\((\/[^)\s]*)\)/g, '<a href="$2">$1</a>')
     .replace(/(https?:\/\/[^\s)]+)/g, '<a href="$1">$1</a>')
     .replace(/([\w.+-]+@reelsbox\.de)/g, '<a href="mailto:$1">$1</a>');
 }
@@ -28,6 +29,9 @@ function md(text) {
     } else if (/^#{1,3} /.test(block)) {
       const level = block.match(/^#+/)[0].length;
       out.push(`<h${level}>${inline(block.replace(/^#+ /, ''))}</h${level}>`);
+    } else if (/^\d+\. /.test(block)) {
+      const items = block.split('\n').map((l) => `<li>${inline(l.replace(/^\d+\. /, ''))}</li>`);
+      out.push(`<ol>${items.join('')}</ol>`);
     } else if (/^- /.test(block)) {
       const items = block.split('\n').map((l) => `<li>${inline(l.replace(/^- /, ''))}</li>`);
       out.push(`<ul>${items.join('')}</ul>`);
@@ -46,10 +50,12 @@ const PATHS = {
   home: { de: '/', en: '/en/' },
   privacy: { de: '/datenschutz/', en: '/en/privacy/' },
   legal: { de: '/impressum/', en: '/en/legal-notice/' },
+  // Google Play verlangt für Konten (ReelsBox AI) eine Webseite zum Löschen (22.11.2026).
+  deleteAccount: { de: '/konto-loeschen/', en: '/en/delete-account/' },
 };
 const UI = {
-  de: { start: 'Start', privacy: 'Datenschutz', legal: 'Impressum', other: 'English', otherLang: 'en', follow: 'Folge ReelsBox' },
-  en: { start: 'Home', privacy: 'Privacy policy', legal: 'Legal notice', other: 'Deutsch', otherLang: 'de', follow: 'Follow ReelsBox' },
+  de: { start: 'Start', privacy: 'Datenschutz', legal: 'Impressum', deleteAccount: 'Konto löschen', other: 'English', otherLang: 'en', follow: 'Folge ReelsBox' },
+  en: { start: 'Home', privacy: 'Privacy policy', legal: 'Legal notice', deleteAccount: 'Delete account', other: 'Deutsch', otherLang: 'de', follow: 'Follow ReelsBox' },
 };
 
 // Social-Media-Profile (reine Links, keine eingebetteten Inhalte → keine Daten an Dritte, Datenschutz bleibt gleich).
@@ -93,7 +99,7 @@ function page({ key, lang, title, description, body }) {
 ${body}
 </main>
 <footer>
-<a href="${PATHS.home[lang]}">${ui.start}</a> · <a href="${PATHS.privacy[lang]}">${ui.privacy}</a> · <a href="${PATHS.legal[lang]}">${ui.legal}</a>
+<a href="${PATHS.home[lang]}">${ui.start}</a> · <a href="${PATHS.privacy[lang]}">${ui.privacy}</a> · <a href="${PATHS.legal[lang]}">${ui.legal}</a> · <a href="${PATHS.deleteAccount[lang]}">${ui.deleteAccount}</a>
 <div class="social">${socialLinks()}</div>
 <div class="small">© ${new Date().getFullYear()} evele GmbH</div>
 </footer>
@@ -173,16 +179,16 @@ const HOME_TEXT = {
       // Videos: echte Bildschirmaufnahmen in normalem Tempo, gebaut mit ReelBox/play-store/src/web-videos.js.
       // Englisch nur mit englischen Aufnahmen – ohne englische Aufnahme bleibt das Bild.
       { img: 'de-04-teilen', video: 'video/de-teilen.mp4', alt: 'Speichern-Fenster mit Ordner-Auswahl, Bild und Sprachnotiz',
-        h: 'Teilen in 3 Taps', p: 'Im Video auf „Teilen“ tippen, ReelsBox wählen, Ordner aussuchen. Fertig – ReelsBox merkt sich nur den Link.' },
+        h: 'Teilen in 3 Taps', p: 'Im Video auf „Teilen“ tippen, ReelsBox wählen, Ordner aussuchen. Fertig. ReelsBox merkt sich nur den Link.' },
       { img: 'de-07-ordnerfoto', video: 'video/de-ordner.mp4', alt: 'Große Vorschau des Ordnerfotos „Reiseideen“ mit den Knöpfen Öffnen, Bild ändern, Bearbeiten', badge: 'NEU: eigenes Ordnerfoto',
-        h: 'Ordner wie im Chat', p: 'Sortiere nach Rezepten, Sport oder Reisen – mit App-Logo, Emoji oder eigenem Foto. Ein Tipp aufs Ordnerbild zeigt es groß.' },
+        h: 'Ordner wie im Chat', p: 'Sortiere nach Rezepten, Sport oder Reisen, mit App-Logo, Emoji oder eigenem Foto. Ein Tipp aufs Ordnerbild zeigt es groß.' },
       { img: 'de-03-rezepte', video: 'video/de-rezepte.mp4', alt: 'Ordner „Rezepte“ mit großen Karten, Vorschaubild und Notiz',
         h: 'Mit Bild und Notiz', p: 'Bei TikTok und YouTube kommen Vorschaubild und Titel von selbst. Dazu eigene Bilder, Notizen, Suchwörter und Sprachnotizen.' },
       { img: 'de-05-suche', video: 'video/de-suche.mp4', alt: 'Suche nach „Re“: Ordner und Einträge mit Vorschaubild aus allen Ordnern',
         h: 'Schnell wiederfinden', p: 'Die Suche findet Ordner und Einträge aus allen Ordnern. Ein Tipp öffnet das Video wieder.' },
       { img: 'de-06-playlist', video: 'video/de-playlist.mp4', alt: 'Ordner „Musik“ mit dem Knopf „Playlist abspielen (7)“', badge: 'NEU',
         h: 'Ordner als Playlist', p: 'Mehrere YouTube-Videos in einem Ordner? Ein Tipp auf „Playlist abspielen“, und YouTube spielt sie nacheinander ab.' },
-      { img: 'de-09-reihenfolge', video: 'video/de-reihenfolge.mp4', alt: 'Reihenfolge ändern: Das Lied „Nova Sun – Dachterrasse“ wird nach oben geschoben', badge: 'NEU',
+      { img: 'de-09-reihenfolge', video: 'video/de-reihenfolge.mp4', alt: 'Reihenfolge ändern: Das Lied „Nova Sun: Dachterrasse“ wird nach oben geschoben', badge: 'NEU',
         h: 'Deine eigene Reihenfolge', p: 'Tippe auf „Reihenfolge ändern“, halte einen Eintrag kurz und schieb ihn nach oben oder unten. Die Playlist übernimmt deine Reihenfolge.' },
       { img: 'de-08-statistik', video: 'video/de-statistik.mp4', alt: 'Profil mit der Karte „Woher deine Einträge kommen“: Balken für YouTube, TikTok, Instagram, PDF und weitere Quellen', badge: 'NEU',
         h: 'Woher kommen deine Reels?', p: 'Im Profil siehst du, wie viele Einträge aus TikTok, Instagram, YouTube und anderen Apps stammen. Gezählt wird nur auf deinem Handy.' },
@@ -194,7 +200,7 @@ const HOME_TEXT = {
       ['Schon gespeichert?', 'ReelsBox sagt Bescheid, wenn ein Video schon da ist.'],
     ],
     ctaTitle: 'Deine Reels. <span class="hl">Endlich sortiert.</span>',
-    ctaText: 'Kostenlos, ohne Werbung, keine Anmeldung – alles bleibt auf deinem Handy.',
+    ctaText: 'Kostenlos, ohne Werbung, keine Anmeldung. Deine Reels bleiben auf deinem Handy.',
   },
   en: {
     kicker: 'A wallet for your reels',
@@ -218,16 +224,16 @@ const HOME_TEXT = {
     featuresTitle: 'What ReelsBox can do',
     features: [
       { img: 'en-04-share', video: 'video/en-share.mp4', alt: 'Save screen with folder choice, picture and voice note',
-        h: 'Share in 3 taps', p: 'Tap “Share” on a video, choose ReelsBox, pick a folder. Done – ReelsBox only keeps the link.' },
+        h: 'Share in 3 taps', p: 'Tap “Share” on a video, choose ReelsBox, pick a folder. Done. ReelsBox only keeps the link.' },
       { img: 'en-07-folder-photo', video: 'video/en-folders.mp4', alt: 'Big preview of the folder photo “Travel ideas” with the buttons Open, Change picture, Edit', badge: 'NEW: your own folder photo',
-        h: 'Folders like a chat', p: 'Sort into recipes, sport or travel – with app logo, emoji or your own photo. Tap a folder picture to see it big.' },
+        h: 'Folders like a chat', p: 'Sort into recipes, sport or travel, with app logo, emoji or your own photo. Tap a folder picture to see it big.' },
       { img: 'en-03-recipes', video: 'video/en-picture.mp4', alt: 'Folder “Recipes” with large cards, thumbnail and note',
         h: 'With picture and note', p: 'Thumbnail and title for TikTok and YouTube are added automatically. Add your own pictures, notes, search words and voice notes.' },
       { img: 'en-05-search', video: 'video/en-search.mp4', alt: 'Search for “Re”: folders and items with thumbnails from all folders',
         h: 'Find everything fast', p: 'Search finds folders and items across all folders. One tap opens the video again.' },
       { img: 'en-06-playlist', video: 'video/en-playlist.mp4', alt: 'Folder “Music” with the button “Play as playlist (7)”', badge: 'NEW',
         h: 'Folder as a playlist', p: 'Several YouTube videos in one folder? Tap “Play as playlist” and YouTube plays them one after another.' },
-      { img: 'en-09-order', video: 'video/en-order.mp4', alt: 'Change order: the song “Theo Lindqvist – Leise Stunden” is dragged to the top', badge: 'NEW',
+      { img: 'en-09-order', video: 'video/en-order.mp4', alt: 'Change order: the song “Theo Lindqvist: Leise Stunden” is dragged to the top', badge: 'NEW',
         h: 'Your own order', p: 'Tap “Change order”, hold an item for a moment and drag it up or down. The playlist follows your order.' },
       { img: 'en-08-stats', video: 'video/en-stats.mp4', alt: 'Profile with the card “Where your items come from”: bars for YouTube, TikTok, Instagram, PDF and more', badge: 'NEW',
         h: 'Where your reels come from', p: 'Your profile shows how many items come from TikTok, Instagram, YouTube and other apps. Counted only on your phone.' },
@@ -239,7 +245,7 @@ const HOME_TEXT = {
       ['Already saved?', 'ReelsBox tells you when a video is already there.'],
     ],
     ctaTitle: 'Your reels. <span class="hl">Finally sorted.</span>',
-    ctaText: 'Free, no ads, no sign-up – everything stays on your phone.',
+    ctaText: 'Free, no ads, no sign-up. Your reels stay on your phone.',
   },
 };
 
@@ -390,12 +396,13 @@ function write(rel, content) {
 
 const privacy = split('Datenschutz.md');
 const legal = split('Impressum.md');
+const deleteAccount = split('KontoLoeschen.md');
 for (const lang of ['de', 'en']) {
   const de = lang === 'de';
   const dir = (key) => PATHS[key][lang].slice(1);
   write(dir('home') + 'index.html', page({
     key: 'home', lang,
-    title: de ? 'ReelsBox – der Geldbeutel für deine Reels' : 'ReelsBox – a wallet for your reels',
+    title: de ? 'ReelsBox, der Geldbeutel für deine Reels' : 'ReelsBox, a wallet for your reels',
     description: de
       ? 'Speichere Videos aus TikTok, YouTube, Instagram und Facebook an einem Ort. Alles bleibt auf deinem Handy.'
       : 'Save videos from TikTok, YouTube, Instagram and Facebook in one place. Everything stays on your phone.',
@@ -403,13 +410,19 @@ for (const lang of ['de', 'en']) {
   }));
   write(dir('privacy') + 'index.html', page({
     key: 'privacy', lang,
-    title: de ? 'Datenschutz – ReelsBox' : 'Privacy policy – ReelsBox',
+    title: de ? 'Datenschutz | ReelsBox' : 'Privacy policy | ReelsBox',
     description: de ? 'Datenschutzerklärung der App ReelsBox' : 'Privacy policy of the ReelsBox app',
     body: privacy[lang],
   }));
+  write(dir('deleteAccount') + 'index.html', page({
+    key: 'deleteAccount', lang,
+    title: de ? 'Konto löschen | ReelsBox' : 'Delete account | ReelsBox',
+    description: de ? 'So löschst du dein ReelsBox-AI-Konto' : 'How to delete your ReelsBox AI account',
+    body: deleteAccount[lang],
+  }));
   write(dir('legal') + 'index.html', page({
     key: 'legal', lang,
-    title: de ? 'Impressum – ReelsBox' : 'Legal notice – ReelsBox',
+    title: de ? 'Impressum | ReelsBox' : 'Legal notice | ReelsBox',
     description: de ? 'Impressum' : 'Legal notice',
     body: legal[lang],
   }));
