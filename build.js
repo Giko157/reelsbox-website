@@ -126,6 +126,7 @@ const ICONS = {
   share: '<path d="M12 3v12M7.5 7.5 12 3l4.5 4.5"/><path d="M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/>',
   folder: '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
   noads: '<circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>',
+  send: '<path d="M21 3 10.5 13.5"/><path d="M21 3 14.5 21l-4-7.5L3 9.5z"/>',
   phone: '<rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18h3"/><path d="M9.5 10.5l2 2 3.5-3.5"/>',
 };
 const icon = (name) => `<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
@@ -158,19 +159,19 @@ const HOME_TEXT = {
   de: {
     kicker: 'Der Geldbeutel für deine Reels',
     h1: 'Alle Reels. <span class="hl">Ein Ort.</span>',
-    lead: 'Speichere Videos aus TikTok, YouTube, Instagram und Facebook in deinen eigenen Ordnern. Ein Tipp auf „Teilen“ genügt.',
+    lead: 'Sammle Videos aus TikTok, YouTube, Instagram und Facebook in deinen eigenen Ordnern und schick sie mit einem Link an Freunde. Ein Tipp auf „Teilen“ genügt.',
     play: 'Bei Google Play laden',
     appstore: 'Im App Store laden',
     note: 'Kostenlos · ohne Werbung · für Android und iPhone',
     hero: [
-      { img: 'de-04-teilen', alt: 'Speichern-Fenster von ReelsBox: Ordner für ein geteiltes Instagram-Reel auswählen' },
-      { img: 'de-02-ordner', alt: 'ReelsBox-Startseite mit Ordnern wie Rezepte, Workout zu Hause und Reiseideen' },
+      { img: 'de-hero-teilen', alt: 'Speichern-Fenster von ReelsBox: „KI sortiert“ ist für ein geteiltes Instagram-Reel schon ausgewählt' },
+      { img: 'de-hero-ordner', alt: 'ReelsBox-Startseite mit Ordnern wie KI sortiert, Rezepte, Workout zu Hause und Reiseideen' },
     ],
     band: [
       ['share', 'Aus jeder App teilen', 'TikTok, YouTube, Instagram, Facebook und mehr.'],
       ['folder', 'Eigene Ordner', 'Mit App-Logo, Emoji oder eigenem Foto.'],
-      ['noads', 'Kein Konto, keine Werbung', 'Installieren und sofort loslegen.'],
-      ['phone', 'Bleibt auf deinem Handy', 'Alles wird nur auf deinem Handy gespeichert.'],
+      ['send', 'Ordner verschicken', 'Ein Link, und Freunde sehen alle deine Reels.'],
+      ['noads', 'Ohne Konto loslegen', 'Keine Werbung. Ein Konto brauchst du nur für die KI.'],
     ],
     introTitle: 'ReelsBox in 20 Sekunden',
     introVideo: { src: 'video/erklaer-de.mp4', poster: 'erklaer-de', alt: 'Erklärvideo: Songs sammeln und ordnen, Reels aus Instagram, TikTok, YouTube und Facebook speichern, suchen', on: 'Ton an', off: 'Ton aus' },
@@ -205,19 +206,19 @@ const HOME_TEXT = {
   en: {
     kicker: 'A wallet for your reels',
     h1: 'All Reels. <span class="hl">One Place.</span>',
-    lead: 'Save videos from TikTok, YouTube, Instagram and Facebook in your own folders. One tap on “Share” is all it takes.',
+    lead: 'Collect videos from TikTok, YouTube, Instagram and Facebook in your own folders and send them to friends with one link. One tap on “Share” is all it takes.',
     play: 'Get it on Google Play',
     appstore: 'Download on the App Store',
     note: 'Free · no ads · for Android and iPhone',
     hero: [
-      { img: 'en-04-share', alt: 'ReelsBox save screen: picking a folder for a shared Instagram reel' },
-      { img: 'en-02-folders', alt: 'ReelsBox home screen with folders like Recipes, Home workout and Travel ideas' },
+      { img: 'en-hero-share', alt: 'ReelsBox save screen: “AI sorts” is already selected for a shared Instagram reel' },
+      { img: 'en-hero-folders', alt: 'ReelsBox home screen with folders like AI sorts, Recipes, Home workout and Travel ideas' },
     ],
     band: [
       ['share', 'Share from any app', 'TikTok, YouTube, Instagram, Facebook and more.'],
       ['folder', 'Your own folders', 'With app logo, emoji or your own photo.'],
-      ['noads', 'No account, no ads', 'Install and get started right away.'],
-      ['phone', 'Stays on your phone', 'Everything is stored only on your phone.'],
+      ['send', 'Send folders', 'One link, and friends see all your reels.'],
+      ['noads', 'Start without an account', 'No ads. You only need an account for the AI.'],
     ],
     introTitle: 'ReelsBox in 20 seconds',
     introVideo: { src: 'video/erklaer-en.mp4', poster: 'erklaer-en', alt: 'Explainer video: collect and sort songs, save reels from Instagram, TikTok, YouTube and Facebook, search', on: 'Sound on', off: 'Sound off' },
@@ -404,8 +405,8 @@ for (const lang of ['de', 'en']) {
     key: 'home', lang,
     title: de ? 'ReelsBox, der Geldbeutel für deine Reels' : 'ReelsBox, a wallet for your reels',
     description: de
-      ? 'Speichere Videos aus TikTok, YouTube, Instagram und Facebook an einem Ort. Alles bleibt auf deinem Handy.'
-      : 'Save videos from TikTok, YouTube, Instagram and Facebook in one place. Everything stays on your phone.',
+      ? 'Sammle Videos aus TikTok, YouTube, Instagram und Facebook an einem Ort und schick ganze Ordner mit einem Link an Freunde.'
+      : 'Collect videos from TikTok, YouTube, Instagram and Facebook in one place and send whole folders to friends with one link.',
     body: home(lang),
   }));
   write(dir('privacy') + 'index.html', page({
